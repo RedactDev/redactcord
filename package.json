@@ -1,0 +1,38 @@
+{
+  "name": "redactcord",
+  "version": "1.0.0",
+  "description": "Fast and Powerful Discord.js Utilities to make simple and good looking bots",
+  "main": "out/index.js",
+  "typings": "./typings/index.d.ts",
+  "bin": "./bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "build-watch": "npm run build & npm run watch",
+    "start": "node bin/index.js"
+  },
+  "keywords": [],
+  "author": "Redact Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.4",
+    "@types/lodash": "^4.14.199",
+    "@types/node": "^20.8.6"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.0.0",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "immutable": "^5.0.0-beta.4",
+    "inquirer": "^9.2.11",
+    "lodash": "^4.17.21",
+    "nanospinner": "^1.1.0",
+    "progress": "^2.0.3",
+    "quick.db": "^9.1.7",
+    "quickmongo": "^5.2.0",
+    "quickpostgres": "^3.0.2"
+  }
+}

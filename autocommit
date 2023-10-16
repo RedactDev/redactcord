@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+git add *
+git commit -m "AutoCommit: Bump Repository (Update Repository Files)"
+git push -u origin dev
+
+echo Leaving Bash Script...
+
+exit
