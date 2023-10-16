@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env sh
 
 git add *
 git commit -m "AutoCommit: Bump Repository (Update Repository Files)"

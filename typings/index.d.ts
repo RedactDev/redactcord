@@ -10,7 +10,7 @@ export class RedactClient {
     constructor(options: RedactOptions)
 
     public startSpinner(spinnerOptions: NanoSpinner.Options): boolean;
-    public endSpinner(spinnerOptions: NanoSpinner.Options): boolean;
+    public endSpinner(spinnerOptions: NanoSpinner.Options, success: boolean = false): boolean;
     public startOrUpdate(spinnerOption?: NanoSpinner.Options): void;
     public isSpinnerStarted(): boolean;
     public getClient(): Client;
@@ -19,6 +19,7 @@ export class RedactClient {
     public getEventManager(): EventManager;
     public getRedactConfig(): RedactConfig;
     private incrementLoginTry(): number;
+    public getBotUsername(): string | undefined;
     public startClient(): Promise<void>;
     public login(): Promise<boolean>;
 }

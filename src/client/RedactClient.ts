@@ -38,11 +38,15 @@ export class RedactClient {
         this.startedSpinner = true;
         return true;
     }
-    public endSpinner(spinnerOptions: NanoSpinner.Options): boolean {
+    public endSpinner(spinnerOptions: NanoSpinner.Options, success: boolean = false): boolean {
         if (!this.startedSpinner)
             return false;
 
-        this.spinner.stop(spinnerOptions);
+        if (success) {
+            this.spinner.success(spinnerOptions);
+        } else {
+            this.spinner.stop(spinnerOptions);
+        }
         this.startedSpinner = false;
         return true;
     }
@@ -53,6 +57,7 @@ export class RedactClient {
             this.spinner.update(spinnerOptions);
         } else {
             this.spinner.start(spinnerOptions);
+            this.startedSpinner = true;
         }
     }
 
@@ -93,24 +98,38 @@ export class RedactClient {
         if (!commandFolderPath)
             commandFolderPath = path.join(process.cwd(), "commands");
 
-        this.startOrUpdate({
-            text: "Started Loading Commands from folder \"" + commandFolderPath + "\"..."
-        });
+        const suspendCommandLoading = this.getRedactConfig().has("suspendCommandsLoading") && this.getRedactConfig().getBoolean("suspendCommandsLoading")
+        const suspendEventLoading = this.getRedactConfig().has("suspendEventsLoading") && this.getRedactConfig().getBoolean("suspendEventsLoading")
 
-        this.commandsManager.loadAndCall(commandFolderPath, (command) => {
+        if (!suspendCommandLoading)
+        {
             this.startOrUpdate({
-                text: "Started Loading Commands from folder \"" + commandFolderPath + "\"... Command: " + command.getCommandData().getName() 
+                text: "Started Loading Commands from folder \"" + commandFolderPath + "\"..."
             });
-        });
+    
+            this.commandsManager.loadAndCall(commandFolderPath, (command) => {
+                this.startOrUpdate({
+                    text: "Started Loading Commands from folder \"" + commandFolderPath + "\"... Command: " + command.getCommandData().getName() 
+                });
+            });
+        }
 
-        this.startOrUpdate({
-            text: "Started Loading Events from folder \"" + eventFolderPath + "\"..."
-        });
-
-        this.eventManager.loadAndCall(eventFolderPath, (event) => {
+        if (!suspendEventLoading) {
             this.startOrUpdate({
-                text: "Started Loading Events from folder \"" + eventFolderPath + "\"... Event: " + event.getEventName()
+                text: "Started Loading Events from folder \"" + eventFolderPath + "\"..."
             });
+    
+            this.eventManager.loadAndCall(eventFolderPath, (event) => {
+                this.startOrUpdate({
+                    text: "Started Loading Events from folder \"" + eventFolderPath + "\"... Event: " + event.getEventName()
+                });
+            });
+        }
+
+        this.client.on("ready", () => {
+            this.endSpinner({
+                text: "Logged in as: " + this.getBotUsername()
+            }, true);
         });
 
         this.endSpinner({
@@ -118,8 +137,12 @@ export class RedactClient {
         });
     }
 
+    public getBotUsername(): string | undefined {
+        return this.getClient().user?.username;
+    }
+
     public async login(): Promise<boolean> {
-        this.startClient();
+        await this.startClient();
         this.startOrUpdate({
             text: `Trying to login into client... (${this.loginTry}/${this.maxLoginTry})`
         });
@@ -127,6 +150,8 @@ export class RedactClient {
         try {
             await this.client.login(token);
         } catch (err) {
+            console.log(err);
+
             const itry = this.incrementLoginTry();
             if (itry >= this.maxLoginTry)
                 throw new RedactError("Maximum Tries Exceeded", "The login tries has hit the maximum limit which is " + this.maxLoginTry);
