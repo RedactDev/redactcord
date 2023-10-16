@@ -33,6 +33,7 @@
     "progress": "^2.0.3",
     "quick.db": "^9.1.7",
     "quickmongo": "^5.2.0",
-    "quickpostgres": "^3.0.2"
+    "quickpostgres": "^3.0.2",
+    "typescript": "^5.2.2"
   }
 }
