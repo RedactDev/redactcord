@@ -8,10 +8,15 @@ export class CommandsManager extends Loader<RedactCommand> {
 
     private redactClient: RedactClient;
     private commands: Collection<string, RedactCommand> = new Collection();
+    private registeredCommandNames: string[];
 
     constructor(redactClient: RedactClient) {
         super();
         this.redactClient = redactClient;
+        let v = this.redactClient.getRedactConfig().getArray<string>("commands");
+        if (!v)
+            v = [];
+        this.registeredCommandNames = v;
     }
 
     public registerCommand(command: RedactCommand) {
@@ -58,6 +63,8 @@ export class CommandsManager extends Loader<RedactCommand> {
     public loadAndCall(commandFolderPath: string, callback: (command: RedactCommand) => void) {
         const commands = this.loadFrom(commandFolderPath, false);
         for (const command of commands) {
+            if (!this.registeredCommandNames.includes(command.getCommandData().getName()))
+                throw new RedactError("Command Loader Error", "Couldn't Register command \"" + command.getCommandData().getName() + "\" because it's not found in redact.config.json commands array");
             callback(command);
             this.registerCommand(command);
         }

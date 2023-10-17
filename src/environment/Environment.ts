@@ -15,8 +15,6 @@ export class Environment extends Collection<string, string> {
         const allowEnvironmentLoading: boolean = 
             redactConfig.has("allowEnvironmentLoading") 
             && 
-            typeof(redactConfig.get("allowEnvironmentLoading")) == "boolean" 
-            && 
             redactConfig.getBoolean("allowEnvironmentLoading") as boolean;
         if (!allowEnvironmentLoading)
             throw new RedactError("Environment Error", "Trying to access environment while environment is disabled");

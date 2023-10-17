@@ -1,5 +1,4 @@
 {
-    "$schema": "https://cdn.redact.tools/libs/redactcord/RedactcordConfig.schema.json",
     "main": "src/index.js",
     "suspendCommandsLoading": false,
     "suspendEventsLoading": false,

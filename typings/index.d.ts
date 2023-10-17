@@ -5,6 +5,8 @@ type RedactOptions = ClientOptions & {
     token: string;
 }
 
+type ReadyEvent = () => void;
+
 export class RedactClient {
 
     constructor(options: RedactOptions)
@@ -21,6 +23,7 @@ export class RedactClient {
     private incrementLoginTry(): number;
     public getBotUsername(): string | undefined;
     public startClient(): Promise<void>;
+    public onReadyEvent(event: ReadyEvent): void;
     public login(): Promise<boolean>;
 }
 

@@ -2,13 +2,13 @@ import { Collection } from "discord.js";
 import { readFileSync, writeFileSync } from "fs";
 import lodash from "lodash";
 
-export abstract class Configuration extends Collection<string, object> {
+export abstract class Configuration extends Collection<string, any> {
 
-    private content: Record<string, object>;
+    private content: Record<string, any>;
     public filePath: string;
     public empty: boolean;
 
-    constructor(filePath: string, content: Record<string, object>, empty: boolean) {
+    constructor(filePath: string, content: Record<string, any>, empty: boolean) {
         super();
         this.filePath = filePath;
         this.empty = empty;
@@ -18,7 +18,7 @@ export abstract class Configuration extends Collection<string, object> {
         }
     }
 
-    set(key: string, value: object): this {
+    set(key: string, value: any): this {
         super.set(key, value);
         this.content[key] = value;
         return this;
@@ -58,9 +58,27 @@ export abstract class Configuration extends Collection<string, object> {
         return value;
     }
 
+    getArray<V>(key: string): V[] | undefined {
+        if (!this.has(key))
+            return undefined;
+        const value: V[] | undefined = this.get(key);
+        if (!lodash.isArray(value))
+            return undefined;
+        return value;
+    }
+
+    getObject(key: string): object | undefined {
+        if (!this.has(key))
+            return undefined;
+        const value: object | undefined = this.get(key);
+        if (!lodash.isObject(value))
+            return undefined;
+        return value;
+    }
+
     public abstract save(): void;
     
-    toJson(): Record<string, object> {
+    toJson(): Record<string, any> {
         return this.content;
     }
 
@@ -77,7 +95,7 @@ export abstract class Configuration extends Collection<string, object> {
      * @returns 
      * @deprecated Use Configuration#toJson instead
      */
-    toJSON(): object[] {
+    toJSON(): any[] {
         return [];
     }
 }

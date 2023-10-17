@@ -21,6 +21,7 @@ export class RedactClient {
     private startedSpinner: boolean = false;
     private commandsManager: CommandsManager;
     private eventManager: EventManager;
+    private readyEvent?: () => void;
 
     constructor(options: RedactOptions) {
         this.client = new Client(options);
@@ -49,6 +50,10 @@ export class RedactClient {
         }
         this.startedSpinner = false;
         return true;
+    }
+
+    public onReadyEvent(event: () => void) {
+        this.readyEvent = event;
     }
 
     public startOrUpdate(spinnerOptions?: NanoSpinner.Options) {
@@ -130,6 +135,9 @@ export class RedactClient {
             this.endSpinner({
                 text: "Logged in as: " + this.getBotUsername()
             }, true);
+
+            if (this.readyEvent)
+                this.readyEvent();
         });
 
         this.endSpinner({
