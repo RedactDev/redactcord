@@ -3,7 +3,7 @@ const Nanospinner = require("nanospinner");
 const spinner = Nanospinner.createSpinner();
 const InitializationTools = require('../../globals/InitializationUtils');
 
-const maxSteps = 4;
+const maxSteps = 5;
 let currentStep = 1;
 
 function startStep(text) {
@@ -50,6 +50,10 @@ module.exports = () => CommandBuilder.createBuilder("init")
         step("Creating configuraitons");
 
         InitializationTools.createConfigurationFiles();
+
+        step("Installing Required dependencies")
+
+        //InitializationTools.installRequired();
 
         step("Done! Created All Files");
 

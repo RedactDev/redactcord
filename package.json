@@ -16,16 +16,19 @@
   "author": "Redact Team",
   "license": "MIT",
   "devDependencies": {
+    "@types/cli-color": "^2.0.3",
     "@types/inquirer": "^9.0.4",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.6"
   },
   "dependencies": {
     "better-sqlite3": "^9.0.0",
-    "chalk": "^5.3.0",
+    "cli-color": "^2.0.3",
     "commander": "^11.1.0",
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
+    "eval": "^0.1.8",
+    "figlet": "^1.6.0",
     "inquirer": "^9.2.11",
     "lodash": "^4.17.21",
     "nanospinner": "^1.1.0",
@@ -33,6 +36,7 @@
     "quick.db": "^9.1.7",
     "quickmongo": "^5.2.0",
     "quickpostgres": "^3.0.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "watch": "^1.0.2"
   }
 }

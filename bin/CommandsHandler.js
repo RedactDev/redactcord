@@ -2,7 +2,7 @@ const { Collection } = require("discord.js");
 
 function RegisterCommand(program, data) {
 
-    const { name, args, description, callback } = data;
+    const { name, args, description, options, callback } = data;
     
 
     if (!description) {
@@ -20,6 +20,12 @@ function RegisterCommand(program, data) {
     if (args && args.length) {
         for (const arg of args) {
             l.argument(arg);
+        }
+    }
+
+    if (options && options.length) {
+        for (const option of options) {
+            l.option(option);
         }
     }
 }

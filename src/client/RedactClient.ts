@@ -5,6 +5,8 @@ import { RedactError } from "../error/RedactError";
 import { CommandsManager } from "./commands/CommandsManager";
 import { EventManager } from "./events/EventManager";
 import path from "path";
+import { Logger } from "../logger/Logger";
+import Color from "cli-color";
 
 type RedactOptions = ClientOptions & {
     token: string;
@@ -22,6 +24,7 @@ export class RedactClient {
     private commandsManager: CommandsManager;
     private eventManager: EventManager;
     private readyEvent?: () => void;
+    private logger: Logger = Logger.getLogger();
 
     constructor(options: RedactOptions) {
         this.client = new Client(options);
@@ -133,8 +136,11 @@ export class RedactClient {
 
         this.client.on("ready", () => {
             this.endSpinner({
-                text: "Logged in as: " + this.getBotUsername()
+                text: "API Connected!"
             }, true);
+
+            this.logger.info(`Connected to ${Color.greenBright(this.getBotUsername())} at ${Color.greenBright(new Date().toUTCString())}`);
+            this.logger.info(` └── Amount of servers ${Color.yellow(this.getClient().guilds.cache.size)}`);
 
             if (this.readyEvent)
                 this.readyEvent();
@@ -158,11 +164,14 @@ export class RedactClient {
         try {
             await this.client.login(token);
         } catch (err) {
-            console.log(err);
-
             const itry = this.incrementLoginTry();
             if (itry >= this.maxLoginTry)
+            {
+                this.spinner.error({
+                    text: `Trying to login into client... (${this.loginTry}/${this.maxLoginTry})`,
+                })
                 throw new RedactError("Maximum Tries Exceeded", "The login tries has hit the maximum limit which is " + this.maxLoginTry);
+            }
             await this.login();
         }
         return true;

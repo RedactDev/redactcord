@@ -1,7 +1,8 @@
+const { execSync } = require("child_process");
 const { writeFileSync, mkdirSync } = require("fs");
 const path = require("path");
 
-const configName = "redact.config.json";
+const configName = "redactcord.config.json";
 const environmentName = ".redact.env";
 const files = [
     environmentName,
@@ -12,6 +13,9 @@ const directories = [
     "commands",
     "events",
 ];
+const requiredDependencies = [
+    "redactcord",
+]
 
 const packageConfig = {
     name: path.basename(path.dirname(process.cwd())),
@@ -43,7 +47,7 @@ function toJson(data) {
 
 function createConfigurationFiles() {
     writeFileSync(path.join(process.cwd(), "package.json"), toJson(packageConfig));
-    writeFileSync(path.join(process.cwd(), "redactcord.config.json"), toJson(redactconfig));
+    writeFileSync(path.join(process.cwd(), configName), toJson(redactconfig));
 }
 
 function writeFiles() {
@@ -58,9 +62,30 @@ function makeDirectories() {
     }
 }
 
+function executeNpm(command) {
+    execSync("npm " + command);
+}
+
+function install(dependency) {
+    executeNpm("install " + dependency);
+}
+
+function installMultiple(...dependencies) {
+    executeNpm("install " + dependencies.join(" "));
+}
+
+function installRequired() {
+    installMultiple(...requiredDependencies);
+}
+
 module.exports = {
     createConfigurationFiles,
     writeFiles,
     toJson,
-    makeDirectories
+    makeDirectories,
+    configName,
+    install,
+    executeNpm,
+    installMultiple,
+    installRequired
 }

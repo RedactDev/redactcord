@@ -11,6 +11,7 @@ import { Configuration } from "./configuration/Configuration";
 import { RedactConfig } from "./configuration/RedactConfig";
 import { Environment } from "./environment/Environment";
 import { RedactError } from "./error/RedactError";
+import { Logger } from "./logger/Logger";
 import { Loader } from "./utils/Loader";
 
 export {
@@ -28,4 +29,5 @@ export {
     Environment,
     RedactError,
     Loader,
+    Logger
 };

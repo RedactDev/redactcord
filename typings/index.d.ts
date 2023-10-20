@@ -150,3 +150,17 @@ export abstract class Event {
     public takeFirst<V>(...args: V[]): V | undefined;
 
 }
+
+export class Logger {
+
+    public static getLogger(): Logger;
+
+    constructor();
+
+    public log(level: "INFO" | "WARN" | "ERROR" | "DEBUG", text: string): void;
+    public info(text: string): void;
+    public warn(text: string): void;
+    public error(text: string): void;
+    public debug(text: string): void;
+
+}

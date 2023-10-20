@@ -3,13 +3,14 @@ import dotenv from "dotenv";
 import path from "path";
 import { RedactConfig } from "../configuration/RedactConfig";
 import { RedactError } from "../error/RedactError";
+import { readFileSync } from "fs";
 
 export class Environment extends Collection<string, string> {
 
     private content: dotenv.DotenvParseOutput;
     constructor() {
         super();
-        this.content = dotenv.parse(path.join(process.cwd(), ".redact.env"));
+        this.content = dotenv.parse(readFileSync(path.join(process.cwd(), ".redact.env"), "utf-8"));
         RedactConfig.checkRedactConfig();
         const redactConfig = new RedactConfig();
         const allowEnvironmentLoading: boolean = 
