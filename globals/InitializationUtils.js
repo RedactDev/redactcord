@@ -1,6 +1,7 @@
 const { execSync } = require("child_process");
 const { writeFileSync, mkdirSync } = require("fs");
 const path = require("path");
+const yaml = require('yaml');
 
 const configName = "redactcord.config.json";
 const environmentName = ".redact.env";
@@ -41,6 +42,26 @@ const redactconfig = {
     commands: []
 };
 
+const redactDatabaseConfig = {
+    enabled: false,
+    type: "flat",
+    flat: {
+        filePath: "example.db"
+    },
+    mongo: {
+        url: "mongo:?/"
+    },
+    postgre: {
+        url: "postgres://"
+    },
+    mysql: {
+        host: "127.0.0.1",
+        user: "root",
+        database: "example",
+        password: "password"
+    }
+}
+
 function toJson(data) {
     return JSON.stringify(data, null, 4);
 }
@@ -48,6 +69,7 @@ function toJson(data) {
 function createConfigurationFiles() {
     writeFileSync(path.join(process.cwd(), "package.json"), toJson(packageConfig));
     writeFileSync(path.join(process.cwd(), configName), toJson(redactconfig));
+    writeFileSync(path.join(process.cwd(), "redact.database.yml"), yaml.stringify(redactDatabaseConfig));
 }
 
 function writeFiles() {

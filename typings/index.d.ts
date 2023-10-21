@@ -1,5 +1,8 @@
 import { ChatInputCommandInteraction, Client, ClientOptions, Collection, Interaction, Message, RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder } from "discord.js";
 import NanoSpinner from "nanospinner";
+import { QuickDB } from "quick.db";
+import PostgresAPI from "quickpostgres";
+import { RedactErrorHandler } from "./errorhandler";
 
 type RedactOptions = ClientOptions & {
     token: string;
@@ -25,6 +28,8 @@ export class RedactClient {
     public startClient(): Promise<void>;
     public onReadyEvent(event: ReadyEvent): void;
     public login(): Promise<boolean>;
+    public initErrorHandler(errorHandler: RedactErrorHandler)
+    public getErrorHandler(): RedactErrorHandler | undefined;
 }
 
 export class CommandsManager extends Loader<RedactCommand> {
@@ -104,6 +109,12 @@ export class FullConfiguration extends Configuration {
 
 }
 
+export class YamlConfiguration extends Configuration {
+
+    constructor(filePath: string);
+
+}
+
 export class RedactConfig extends FullConfiguration {
     public static RedactConfigName: string;
     public static checkRedactConfig(): boolean;
@@ -163,4 +174,42 @@ export class Logger {
     public error(text: string): void;
     public debug(text: string): void;
 
+}
+
+export class DatabaseManager {
+
+    public static getDatabaseManager(): DatabaseManager;
+
+    public getDatabase(name: string): Database | undefined;
+    public hasDatabase(name: string): boolean;
+    public registerDatabase(name: string, database: Database): this;
+    public unregisterDatabase(name: string): this;
+    public setDefaultDatabase(name: string): this;
+    public getDefaultDatabase(): Database;
+
+}
+
+export class Database {
+
+    private quick: QuickDB | PostgresAPI.Client;
+
+    constructor();
+
+    public getDatabase(): QuickDB | PostgresAPI.Client
+
+    public isPostgres(): this is { quick: PostgresAPI.Client, getDatabase: () => PostgresAPI.Client };
+
+    public isQuick(): this is { quick: QuickDB, getDatabase: () => QuickDB };
+
+    private createDefaultFlatData() 
+
+    private createDefaultMongoData()
+
+    private createDefaultPostgresData(): object
+
+    private createDefaultMySQLData(): object
+}
+
+export {
+    RedactErrorHandler
 }

@@ -2,6 +2,9 @@
 
 Fast And Powerful Discord.js Bot Builder to SImplify and Beautify your discord bot with many features
 
+# Documentation
+Check out https://js.redact.tools for more info about redactcord or it's documentation
+
 ## Features
 
 These are the features included into the package or will be included in the meantime:
@@ -9,8 +12,8 @@ These are the features included into the package or will be included in the mean
 1. [x] Command System
 1. [x] Event System
 1. [x] Configuration System
-1. [] CLI & Files Watcher (WIP)
-1. [] Database System (WIP)
+1. [x] CLI (WIP)
+1. [x] Database System
 1. [] Error Handler (WIP)
 1. [] Economy System (Planned)
 1. [] Music System (Planned). Note: Using the music system, Youtube api is going to be removed from the music system. (To not get banned of course)

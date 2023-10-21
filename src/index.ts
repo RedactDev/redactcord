@@ -1,3 +1,4 @@
+import { DatabaseManager } from "./database/DatabaseManager";
 import { RedactClient } from "./client/RedactClient";
 import { CommandData } from "./client/commands/CommandData";
 import { CommandFinishResult } from "./client/commands/CommandFinishResult";
@@ -9,10 +10,12 @@ import { CommandsInteractionEvent } from "./client/events/default/CommandsIntera
 import { InteractionEvent } from "./client/events/default/InteractionEvent";
 import { Configuration } from "./configuration/Configuration";
 import { RedactConfig } from "./configuration/RedactConfig";
+import { Database } from "./database/Database";
 import { Environment } from "./environment/Environment";
 import { RedactError } from "./error/RedactError";
 import { Logger } from "./logger/Logger";
 import { Loader } from "./utils/Loader";
+import { RedactErrorHandler } from "./client/errors/RedactErrorHandler";
 
 export {
     RedactClient,
@@ -29,5 +32,8 @@ export {
     Environment,
     RedactError,
     Loader,
-    Logger
+    Logger,
+    Database,
+    DatabaseManager,
+    RedactErrorHandler
 };

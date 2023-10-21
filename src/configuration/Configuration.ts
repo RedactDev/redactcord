@@ -1,6 +1,8 @@
+import { CollectionConstructor } from "@discordjs/collection";
 import { Collection } from "discord.js";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import lodash from "lodash";
+import yaml from "yaml";
 
 export abstract class Configuration extends Collection<string, any> {
 
@@ -76,6 +78,14 @@ export abstract class Configuration extends Collection<string, any> {
         return value;
     }
 
+    updateData(data: Record<string, any>) {
+        this.content = data;
+        this.clear();
+        for (const [key, value] of Object.entries(data)) {
+            this.set(key, value);
+        }
+    }
+
     public abstract save(): void;
     
     toJson(): Record<string, any> {
@@ -119,4 +129,31 @@ export class FullConfiguration extends Configuration {
     public save(): void {
         writeFileSync(this.filePath, JSON.stringify(this.toJson(), null, 4));
     }
+}
+
+export class YamlConfiguration extends Configuration {
+
+    constructor(filePath: string) {
+        super(filePath, {}, true);
+        let data;
+        if (existsSync(filePath))
+        {
+            data = yaml.parse(readFileSync(filePath, "utf-8"));
+            if (!Object.keys(data).length)
+                this.empty = true;
+            else
+                this.empty = false;
+        }
+        else
+        {
+            this.empty = true;
+            data = {};
+        }
+        this.updateData(data);
+    }
+
+    public save(): void {
+        writeFileSync(this.filePath, yaml.stringify(this.toJson()));
+    }
+
 }

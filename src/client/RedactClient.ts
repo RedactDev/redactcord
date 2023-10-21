@@ -7,6 +7,7 @@ import { EventManager } from "./events/EventManager";
 import path from "path";
 import { Logger } from "../logger/Logger";
 import Color from "cli-color";
+import { RedactErrorHandler } from "./errors/RedactErrorHandler";
 
 type RedactOptions = ClientOptions & {
     token: string;
@@ -25,6 +26,7 @@ export class RedactClient {
     private eventManager: EventManager;
     private readyEvent?: () => void;
     private logger: Logger = Logger.getLogger();
+    private errorHandler?: RedactErrorHandler;
 
     constructor(options: RedactOptions) {
         this.client = new Client(options);
@@ -53,6 +55,14 @@ export class RedactClient {
         }
         this.startedSpinner = false;
         return true;
+    }
+
+    public initErrorHandler(errorHandler: RedactErrorHandler) {
+        this.errorHandler = errorHandler;
+    }
+
+    public getErrorHandler(): RedactErrorHandler | undefined {
+        return this.errorHandler;
     }
 
     public onReadyEvent(event: () => void) {
