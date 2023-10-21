@@ -1,9 +1,0 @@
-{
-    "main": "src/index.js",
-    "suspendCommandsLoading": false,
-    "suspendEventsLoading": false,
-    "eventsFolderPath": "events",
-    "commandsFolderPath": "commands",
-    "allowEnvironmentLoading": true,
-    "commands": []
-}
