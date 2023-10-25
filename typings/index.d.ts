@@ -45,7 +45,7 @@ export class CommandsManager extends Loader<RedactCommand> {
 }
 
 export class Loader<E> {
-    public loadFrom(folder: string, deep: boolean = false): E[];
+    public loadFrom(folder: string, deep: boolean = false, iscwd: boolean = true): E[];
 }
 
 export class EventManager extends Loader<Event> {
@@ -70,6 +70,7 @@ type MessageArguments = string[];
 
 export abstract class RedactCommand {
 
+    constructor(commandData: ComandData);
     public setRedactClient(redactClient: RedactClient): void;
     public getRedactClient(): RedactClient;
     public getCommandData(): CommandData;

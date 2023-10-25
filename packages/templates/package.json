@@ -1,0 +1,24 @@
+{
+  "name": "@redactcord/templates",
+  "version": "0.0.1",
+  "description": "Provides all template urls for the main package",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Max Jackson",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redactdev/redactcord.git"
+  },
+  "keywords": [
+    "urls",
+    "templates"
+  ],
+  "bugs": {
+    "url": "https://github.com/redactdev/redactcord/issues"
+  },
+  "homepage": "https://github.com/redactdev/redactcord#readme"
+}

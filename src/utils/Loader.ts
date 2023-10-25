@@ -4,7 +4,7 @@ import { RedactError } from "../error/RedactError";
 
 export class Loader<E> {
 
-    public loadFrom(folder: string, deep: boolean = false) {
+    public loadFrom(folder: string, deep: boolean = false, iscwd: boolean = true) {
         const arr: E[] = [];
         const hirearchy = readdirSync(folder);
 
@@ -17,9 +17,13 @@ export class Loader<E> {
             }
             else
             {
-                if (!item.endsWith(".js") || !item.endsWith(".ts"))
-                    throw new RedactError("Invalid Extension", "An invalid extension was found in a file name: \"" + item + "\". Make sure it's .ts or .js");
-                const r = require(path.join(folder, item));
+                let p = ``;
+                if (iscwd) {
+                    p += path.join(process.cwd(), folder, item)
+                } else {
+                    p += path.join(folder, item)
+                }
+                const r = require(p);
                 let clazz: E;
                 try {
                     clazz = r();
