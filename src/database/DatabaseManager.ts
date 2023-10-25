@@ -10,9 +10,13 @@ export class DatabaseManager {
     }
 
     private databases: Map<string, Database> = new Map();
-    private defaultDatabase: Database = new Database();
+    private defaultDatabase?: Database;
 
     constructor() {}
+
+    init() {
+        this.defaultDatabase = new Database();
+    }
 
     getDatabase(name: string): Database | undefined {
         return this.databases.get(name);
@@ -36,7 +40,7 @@ export class DatabaseManager {
         return this;
     }
 
-    getDefaultDatabase(): Database {
+    getDefaultDatabase(): Database | undefined {
         return this.defaultDatabase;
     }
 }

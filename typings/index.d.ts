@@ -185,7 +185,8 @@ export class DatabaseManager {
     public registerDatabase(name: string, database: Database): this;
     public unregisterDatabase(name: string): this;
     public setDefaultDatabase(name: string): this;
-    public getDefaultDatabase(): Database;
+    public getDefaultDatabase(): Database | undefined;
+    public init(): void;
 
 }
 
