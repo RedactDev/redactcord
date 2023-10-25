@@ -12,11 +12,12 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "build-watch": "npm run build & npm run watch",
-    "start": "node bin/index.js"
+    "start": "node bin/index.js",
+    "publish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/redactDev/Redactcord"
+    "url": "git+https://github.com/redactDev/Redactcord.git"
   },
   "keywords": [],
   "author": "Redact Team",
