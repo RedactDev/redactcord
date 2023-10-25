@@ -20,6 +20,9 @@ export class EventManager extends Loader<Event> {
     public registerEvent(event: Event): boolean {
         event.setRedactClient(this.redactClient);
         this.events.set(event.getEventName(), event);
+        this.redactClient.getClient().on(event.getEventName(), (...args) => {
+            event.onEvent(...args);
+        });
         return true;
     }
 
