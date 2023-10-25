@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { Collection, RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import { RedactCommand } from "./RedactCommand";
 import { RedactClient } from "../RedactClient";
 import { RedactError } from "../../error/RedactError";
@@ -65,7 +65,7 @@ export class CommandsManager extends Loader<RedactCommand> {
     }
 
     public getLoadedCommandsAmount(): number {
-        return this.commands.size + 1;
+        return this.commands.size;
     }
 
     public loadAndCall(commandFolderPath: string, callback: (command: RedactCommand) => void) {
@@ -76,5 +76,17 @@ export class CommandsManager extends Loader<RedactCommand> {
             callback(command);
             this.registerCommand(command);
         }
+    }
+
+    public jsonifyCommands(): RESTPostAPIApplicationCommandsJSONBody[] {
+        const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];
+        
+        for (const [key, value] of this.commands) {
+            commands.push(
+                value.getCommandData().toJSON()
+            );
+        }
+
+        return commands;
     }
 }

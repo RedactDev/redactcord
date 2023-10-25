@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+echo Building...
+tsc
+echo Commiting
+./autocommit
+echo Patching Version..
+npm version patch
+echo Publishing Package
+npm publish
+
+echo Exitting Bash Script.
+
+exit 0

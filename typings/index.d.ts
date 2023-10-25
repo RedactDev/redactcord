@@ -6,6 +6,7 @@ import { RedactErrorHandler } from "./errorhandler";
 
 type RedactOptions = ClientOptions & {
     token: string;
+    allowGlobalCommands?: boolean;
 }
 
 type ReadyEvent = () => void;

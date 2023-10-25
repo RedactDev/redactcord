@@ -4,6 +4,7 @@ import { RedactClient } from "../RedactClient";
 import { readdirSync, statSync } from "fs";
 import path from "path";
 import { Loader } from "../../utils/Loader";
+import { CommandsInteractionEvent } from "./default/CommandsInteractionEvent";
 
 export class EventManager extends Loader<Event> {
 
@@ -13,6 +14,7 @@ export class EventManager extends Loader<Event> {
     constructor(redactClient: RedactClient) {
         super();
         this.redactClient = redactClient;
+        this.registerEvent(new CommandsInteractionEvent());
     }
 
     public registerEvent(event: Event): boolean {
@@ -37,6 +39,6 @@ export class EventManager extends Loader<Event> {
     }
 
     public getLoadedEventsAmount() {
-        return this.events.size + 1;
+        return this.events.size;
     }
 }

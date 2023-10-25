@@ -1,4 +1,4 @@
-import { Client, ClientOptions } from "discord.js";
+import { Client, ClientOptions, REST, Routes } from "discord.js";
 import { RedactConfig } from "../configuration/RedactConfig";
 import NanoSpinner from "nanospinner";
 import { RedactError } from "../error/RedactError";
@@ -9,8 +9,18 @@ import { Logger } from "../logger/Logger";
 import Color from "cli-color";
 import { RedactErrorHandler } from "./errors/RedactErrorHandler";
 
+type RedactRestOptions = {
+    enabled: boolean,
+    global?: boolean,
+    /**
+     * Used if the global variable is not enabled.
+     */
+    guildId?: string,
+}
+
 type RedactOptions = ClientOptions & {
     token: string;
+    restOptions?: RedactRestOptions;
 };
 
 export class RedactClient {
@@ -149,6 +159,8 @@ export class RedactClient {
                 text: "API Connected!"
             }, true);
 
+            this.restify();
+
             this.logger.info(`Connected to ${Color.greenBright(this.getBotUsername())} at ${Color.greenBright(new Date().toUTCString())}`);
             this.logger.info(` ├── Loaded ${Color.yellow(this.getCommandsManager().getLoadedCommandsAmount())} number of commands`)
             this.logger.info(` ├── Loaded ${Color.yellow(this.getEventManager().getLoadedEventsAmount())} number of events`);
@@ -161,6 +173,41 @@ export class RedactClient {
         this.endSpinner({
             text: "Done! Loaded in " + performance.now() + "ms"
         });
+    }
+
+    private async restify(): Promise<void> {
+
+        const rest = new REST({
+            version: "10"
+        }).setToken(this.options.token);
+
+        const id = this.getClient().user?.id;
+        if (!id) return;
+
+        const json = this.commandsManager.jsonifyCommands();
+        const restOptions = this.options.restOptions;
+        if (!restOptions)
+            return;
+        if (!restOptions.enabled) return;
+        const isGlobal = restOptions.global != undefined && restOptions.global == true;
+        try {
+            if (isGlobal) {
+                await rest.put(Routes.applicationCommands(id), {
+                    body: json
+                });
+            } else {
+                const guildId = restOptions.guildId;
+                if (!guildId)
+                    throw new RedactError("Rest Error", "Invalid guild id. Provide a guild id for non global application commands.");
+                await rest.put(Routes.applicationGuildCommands(id, guildId), {
+                    body: json
+                })
+            }
+            this.logger.info("Loaded Application (/) Commands successfully.")
+        } catch (err) {
+            throw new RedactError("Rest Error", err as string);
+        }
+
     }
 
     public getBotUsername(): string | undefined {
