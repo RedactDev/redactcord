@@ -34,6 +34,7 @@ export class RedactClient {
 
 export class CommandsManager extends Loader<RedactCommand> {
 
+    public getCommand(command: string): RedactCommand | undefined;
     public registerCommand(command: RedactCommand): boolean;
     public isRegistered(command: RedactCommand): boolean;
     public isRegistered(command: string): boolean;

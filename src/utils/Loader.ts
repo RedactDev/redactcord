@@ -25,11 +25,7 @@ export class Loader<E> {
                 }
                 const r = require(p);
                 let clazz: E;
-                try {
-                    clazz = r();
-                } catch (err) {
-                    throw new RedactError("Not Exported", "The class exported in " + item + " is either null. Please check the class again.");
-                }
+                clazz = new r();
 
                 arr.push(clazz);
             }

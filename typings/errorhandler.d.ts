@@ -1,5 +1,5 @@
 import { EmbedField } from "discord.js";
-import { RedactClient } from ".";
+import { RedactClient, RedactError } from ".";
 
 export class RedactErrorHandler {
 
@@ -12,5 +12,5 @@ export class RedactErrorHandler {
     setDateField(field: EmbedField);
     getDateField(): EmbedField;
     reportError(error: Error): Promise<boolean>
-
+    renderError(message: string): RedactError
 }

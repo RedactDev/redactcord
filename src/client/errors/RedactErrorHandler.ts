@@ -1,5 +1,6 @@
 import { ChannelType, EmbedBuilder, EmbedField } from "discord.js";
 import { RedactClient } from "../RedactClient";
+import { RedactError } from "../../error/RedactError";
 
 export class RedactErrorHandler {
 
@@ -73,4 +74,7 @@ export class RedactErrorHandler {
         return true;
     }
 
+    renderError(message: string): RedactError {
+        return new RedactError("Error handler Thrown Error", message);
+    }
 }

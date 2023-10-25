@@ -19,6 +19,10 @@ export class CommandsManager extends Loader<RedactCommand> {
         this.registeredCommandNames = v;
     }
 
+    public getCommand(command: string): RedactCommand | undefined {
+        return this.commands.get(command);
+    }
+
     public registerCommand(command: RedactCommand) {
         command.setRedactClient(this.redactClient);
         this.commands.set(command.getCommandData().getName(), command);
