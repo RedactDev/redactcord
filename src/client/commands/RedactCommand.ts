@@ -11,7 +11,6 @@ export abstract class RedactCommand {
     private client?: RedactClient;
     private commandData: CommandData;
 
-
     constructor(commandData: CommandData) {
         this.commandData = commandData;
     }

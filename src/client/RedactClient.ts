@@ -150,6 +150,8 @@ export class RedactClient {
             }, true);
 
             this.logger.info(`Connected to ${Color.greenBright(this.getBotUsername())} at ${Color.greenBright(new Date().toUTCString())}`);
+            this.logger.info(` ├── Loaded ${Color.yellow(this.getCommandsManager().getLoadedCommandsAmount())} number of commands`)
+            this.logger.info(` ├── Loaded ${Color.yellow(this.getEventManager().getLoadedEventsAmount())} number of events`);
             this.logger.info(` └── Amount of servers ${Color.yellow(this.getClient().guilds.cache.size)}`);
 
             if (this.readyEvent)

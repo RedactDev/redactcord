@@ -64,6 +64,10 @@ export class CommandsManager extends Loader<RedactCommand> {
         }
     }
 
+    public getLoadedCommandsAmount(): number {
+        return this.commands.size + 1;
+    }
+
     public loadAndCall(commandFolderPath: string, callback: (command: RedactCommand) => void) {
         const commands = this.loadFrom(commandFolderPath, false);
         for (const command of commands) {

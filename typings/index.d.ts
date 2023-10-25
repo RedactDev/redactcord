@@ -42,6 +42,7 @@ export class CommandsManager extends Loader<RedactCommand> {
     public unregisterCommand(command: string): boolean;
     public loadCommands(commandFolderPath: string): void;
     public loadAndCall(commandFolderPath: string, callback: (command: RedactCommand) => void): void;
+    public getLoadedCommandsAmount(): number;
 
 }
 
@@ -54,6 +55,7 @@ export class EventManager extends Loader<Event> {
     public registerEvent(event: Event): boolean;
     public loadEvents(eventFolderPath: string): void;
     public loadAndCall(eventFolderPath: string, callback: (event: Event) => void): void;
+    public getLoadedEventsAmount(): number;
 
 }
 

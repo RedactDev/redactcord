@@ -53,7 +53,7 @@ module.exports = () => CommandBuilder.createBuilder("init")
 
         step("Installing Required dependencies")
 
-        //InitializationTools.installRequired();
+        InitializationTools.installRequired();
 
         step("Done! Created All Files");
 

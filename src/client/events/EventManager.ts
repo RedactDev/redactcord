@@ -35,4 +35,8 @@ export class EventManager extends Loader<Event> {
             this.registerEvent(event);
         }
     }
+
+    public getLoadedEventsAmount() {
+        return this.events.size + 1;
+    }
 }

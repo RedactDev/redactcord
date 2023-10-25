@@ -13,7 +13,7 @@
     "watch": "tsc --watch",
     "build-watch": "npm run build & npm run watch",
     "start": "node bin/index.js",
-    "publish": "npm run build"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
