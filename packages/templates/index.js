@@ -1,4 +1,6 @@
 module.exports = {
-    TEMPLATES: [],
+    TEMPLATES: [
+        "RedactDev/SimplePingCommand"
+    ],
     GithubPrefix: "https://github.com/"
 }
